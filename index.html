@@ -28,14 +28,13 @@
       color: var(--accent);
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
         sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: block;
+      overflow-x: hidden;
     }
 
     .screen {
-      position: fixed;
-      inset: 0;
+      min-height: 100vh;
+      width: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -252,6 +251,9 @@
     }
 
     @media (max-width: 768px) {
+      .screen {
+        padding: 1.25rem;
+      }
       .hello-box {
         order: -1;
         padding: 1.5rem 1.7rem;
@@ -305,7 +307,14 @@
       <div class="video-card">
         <div class="video-wrapper">
           <!-- تأكد أن اسم الملف في نفس المجلد هو video.mp4 -->
-          <video id="video" src="video.mp4" preload="metadata"></video>
+          <video
+            id="video"
+            src="video.mp4"
+            preload="metadata"
+            controls
+            playsinline
+            webkit-playsinline
+          ></video>
         </div>
 
         <div class="controls">
@@ -326,7 +335,7 @@
         </div>
 
         <div class="hint">
-          إذا لم يعمل التشغيل التلقائي، اضغط زر <strong>تشغيل</strong> لبدء المقطع.
+          يمكنك استخدام أزرار الفيديو الأصلية أو الأزرار أسفل المقطع للتحكم.
         </div>
       </div>
 
@@ -348,6 +357,7 @@
         passwordError.textContent = "";
         passwordScreen.style.display = "none";
         playerScreen.style.display = "flex";
+        window.scrollTo(0, 0);
       } else {
         passwordError.textContent = "كلمة المرور غير صحيحة";
         passwordInput.value = "";
@@ -378,9 +388,7 @@
 
     playPauseBtn.addEventListener("click", () => {
       if (video.paused) {
-        video.play().catch(() => {
-          // بعض المتصفحات تمنع التشغيل التلقائي بالصوت
-        });
+        video.play().catch(() => {});
       } else {
         video.pause();
       }
