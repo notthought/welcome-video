@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>مرحباً</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg-color: #001632;       /* كحلي غامق */
+      --card-bg: rgba(255, 255, 255, 0.06);
+      --accent: #ffffff;
+      --accent-soft: rgba(255, 255, 255, 0.7);
+      --button-bg: rgba(255, 255, 255, 0.1);
+      --button-hover-bg: rgba(255, 255, 255, 0.25);
+      --radius-lg: 20px;
+      --radius-sm: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg-color);
+      color: var(--accent);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .screen {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    /* شاشة كلمة المرور */
+    .password-screen {
+      background: radial-gradient(circle at top, #05396b 0, #001632 55%, #000814 100%);
+    }
+
+    .password-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: 2rem 2.5rem;
+      max-width: 360px;
+      width: 100%;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(16px);
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .password-title {
+      font-size: 1.6rem;
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.12em;
+    }
+
+    .password-subtitle {
+      font-size: 0.95rem;
+      color: var(--accent-soft);
+      margin-bottom: 1.5rem;
+    }
+
+    .password-input {
+      width: 100%;
+      padding: 0.7rem 0.9rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(0, 0, 0, 0.3);
+      color: var(--accent);
+      font-size: 1rem;
+      text-align: center;
+      outline: none;
+      margin-bottom: 0.9rem;
+    }
+
+    .password-input::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .password-button {
+      width: 100%;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 0.7rem 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+      background: linear-gradient(135deg, #1b8cff, #4dd0ff);
+      color: #00101f;
+      font-weight: 600;
+      transition: transform 0.12s ease, box-shadow 0.12s ease,
+        filter 0.12s ease;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    .password-button:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.55);
+    }
+
+    .password-button:active {
+      transform: translateY(1px) scale(0.99);
+      box-shadow: 0 7px 16px rgba(0, 0, 0, 0.5);
+    }
+
+    .password-error {
+      margin-top: 0.6rem;
+      font-size: 0.9rem;
+      color: #ff8080;
+      min-height: 1.2em;
+    }
+
+    /* شاشة المشغل */
+    .player-screen {
+      display: none;
+      background: radial-gradient(circle at top, #05396b 0, #001632 50%, #000814 100%);
+    }
+
+    .player-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      align-items: center;
+      justify-content: center;
+      max-width: 1040px;
+      width: 100%;
+    }
+
+    .hello-box {
+      padding: 2rem 2.5rem;
+      border-radius: var(--radius-lg);
+      background: var(--card-bg);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.55);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-width: 180px;
+    }
+
+    .hello-label {
+      font-size: 0.95rem;
+      color: var(--accent-soft);
+      margin-bottom: 1rem;
+    }
+
+    .hello-letters {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .hello-letters div {
+      font-size: 3.8rem;
+      font-weight: 800;
+      letter-spacing: 0.35em;
+      text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+    }
+
+    .video-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem 1.5rem 1.2rem;
+      max-width: 640px;
+      width: 100%;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    .video-wrapper {
+      width: 100%;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #000;
+      position: relative;
+    }
+
+    video {
+      width: 100%;
+      display: block;
+      background: #000;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0.4rem;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 0.6rem 1.3rem;
+      background: var(--button-bg);
+      color: var(--accent);
+      cursor: pointer;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      backdrop-filter: blur(10px);
+      transition: background 0.12s ease, transform 0.12s ease,
+        box-shadow 0.12s ease;
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.55);
+    }
+
+    .btn span {
+      font-size: 1.1rem;
+    }
+
+    .btn:hover {
+      background: var(--button-hover-bg);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.6);
+    }
+
+    .btn:active {
+      transform: translateY(1px) scale(0.98);
+      box-shadow: 0 7px 16px rgba(0, 0, 0, 0.55);
+    }
+
+    .btn-main {
+      font-weight: 600;
+      padding-inline: 1.5rem;
+    }
+
+    .hint {
+      font-size: 0.8rem;
+      color: var(--accent-soft);
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .hello-box {
+        order: -1;
+        padding: 1.5rem 1.7rem;
+      }
+      .hello-letters div {
+        font-size: 3rem;
+      }
+      .video-card {
+        padding: 1.2rem 1.2rem 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- شاشة كلمة المرور -->
+  <div class="screen password-screen">
+    <div class="password-card">
+      <div class="password-title">مرحباً</div>
+      <div class="password-subtitle">أدخل كلمة المرور للدخول</div>
+      <input
+        id="passwordInput"
+        type="password"
+        class="password-input"
+        placeholder="كلمة المرور"
+        autocomplete="off"
+      />
+      <button id="passwordButton" class="password-button">
+        دخول
+      </button>
+      <div id="passwordError" class="password-error"></div>
+      <div class="hint">كلمة المرور التجريبية: 1234</div>
+    </div>
+  </div>
+
+  <!-- شاشة المشغل -->
+  <div class="screen player-screen">
+    <div class="player-container">
+
+      <div class="hello-box">
+        <div class="hello-label">أهلاً بك</div>
+        <div class="hello-letters">
+          <div>م</div>
+          <div>ر</div>
+          <div>ح</div>
+          <div>ب</div>
+          <div>ا</div>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="video-wrapper">
+          <!-- تأكد أن اسم الملف في نفس المجلد هو video.mp4 -->
+          <video id="video" src="video.mp4" preload="metadata"></video>
+        </div>
+
+        <div class="controls">
+          <button id="back10" class="btn">
+            <span>⏪</span>
+            <span>- 10 ثانية</span>
+          </button>
+
+          <button id="playPause" class="btn btn-main">
+            <span>▶️</span>
+            <span>تشغيل</span>
+          </button>
+
+          <button id="forward10" class="btn">
+            <span>+ 10 ثانية</span>
+            <span>⏩</span>
+          </button>
+        </div>
+
+        <div class="hint">
+          إذا لم يعمل التشغيل التلقائي، اضغط زر <strong>تشغيل</strong> لبدء المقطع.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // === كلمة المرور البسيطة (1234) ===
+    const PASSWORD = "1234";
+    const passwordScreen = document.querySelector(".password-screen");
+    const playerScreen = document.querySelector(".player-screen");
+    const passwordInput = document.getElementById("passwordInput");
+    const passwordButton = document.getElementById("passwordButton");
+    const passwordError = document.getElementById("passwordError");
+
+    function checkPassword() {
+      const value = passwordInput.value.trim();
+      if (value === PASSWORD) {
+        passwordError.textContent = "";
+        passwordScreen.style.display = "none";
+        playerScreen.style.display = "flex";
+      } else {
+        passwordError.textContent = "كلمة المرور غير صحيحة";
+        passwordInput.value = "";
+        passwordInput.focus();
+      }
+    }
+
+    passwordButton.addEventListener("click", checkPassword);
+    passwordInput.addEventListener("keyup", (e) => {
+      if (e.key === "Enter") {
+        checkPassword();
+      }
+    });
+
+    // === عناصر الفيديو والتحكم ===
+    const video = document.getElementById("video");
+    const playPauseBtn = document.getElementById("playPause");
+    const back10Btn = document.getElementById("back10");
+    const forward10Btn = document.getElementById("forward10");
+
+    function setPlayButtonState(isPlaying) {
+      if (isPlaying) {
+        playPauseBtn.innerHTML = "<span>⏸️</span><span>إيقاف</span>";
+      } else {
+        playPauseBtn.innerHTML = "<span>▶️</span><span>تشغيل</span>";
+      }
+    }
+
+    playPauseBtn.addEventListener("click", () => {
+      if (video.paused) {
+        video.play().catch(() => {
+          // بعض المتصفحات تمنع التشغيل التلقائي بالصوت
+        });
+      } else {
+        video.pause();
+      }
+    });
+
+    back10Btn.addEventListener("click", () => {
+      try {
+        const newTime = Math.max(0, video.currentTime - 10);
+        video.currentTime = newTime;
+      } catch (e) {
+        console.error(e);
+      }
+    });
+
+    forward10Btn.addEventListener("click", () => {
+      try {
+        const duration = isNaN(video.duration) ? Infinity : video.duration;
+        const newTime = Math.min(duration, video.currentTime + 10);
+        video.currentTime = newTime;
+      } catch (e) {
+        console.error(e);
+      }
+    });
+
+    video.addEventListener("play", () => setPlayButtonState(true));
+    video.addEventListener("pause", () => setPlayButtonState(false));
+    video.addEventListener("ended", () => setPlayButtonState(false));
+  </script>
+</body>
+</html>
