@@ -6,14 +6,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
-      --bg-color: #001632;       /* كحلي غامق */
-      --card-bg: rgba(255, 255, 255, 0.06);
+      --bg-color: #001632;       /* كحلي غامق للخلفية */
+      --card-bg: #111216;
+      --card-inner-bg: #1a1b21;
       --accent: #ffffff;
       --accent-soft: rgba(255, 255, 255, 0.7);
-      --button-bg: rgba(255, 255, 255, 0.1);
-      --button-hover-bg: rgba(255, 255, 255, 0.25);
-      --radius-lg: 20px;
-      --radius-sm: 12px;
+      --accent-dim: rgba(255, 255, 255, 0.45);
+      --highlight: #ff4fd8;
+      --primary: #ffd54a;
+      --button-bg: #22232a;
+      --button-hover-bg: #2b2d35;
+      --radius-lg: 22px;
+      --radius-sm: 999px;
     }
 
     * {
@@ -24,7 +28,7 @@
 
     body {
       min-height: 100vh;
-      background: var(--bg-color);
+      background: radial-gradient(circle at top, #05396b 0, #001632 55%, #000814 100%);
       color: var(--accent);
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
         sans-serif;
@@ -43,17 +47,17 @@
 
     /* شاشة كلمة المرور */
     .password-screen {
-      background: radial-gradient(circle at top, #05396b 0, #001632 55%, #000814 100%);
+      background: transparent;
     }
 
     .password-card {
-      background: var(--card-bg);
+      background: rgba(0, 0, 0, 0.55);
       border-radius: var(--radius-lg);
       padding: 2rem 2.5rem;
       max-width: 360px;
       width: 100%;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(16px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(18px);
       text-align: center;
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
@@ -73,9 +77,9 @@
     .password-input {
       width: 100%;
       padding: 0.7rem 0.9rem;
-      border-radius: var(--radius-sm);
+      border-radius: 14px;
       border: 1px solid rgba(255, 255, 255, 0.2);
-      background: rgba(0, 0, 0, 0.3);
+      background: rgba(0, 0, 0, 0.5);
       color: var(--accent);
       font-size: 1rem;
       text-align: center;
@@ -90,7 +94,7 @@
     .password-button {
       width: 100%;
       border: none;
-      border-radius: var(--radius-sm);
+      border-radius: 14px;
       padding: 0.7rem 1rem;
       font-size: 1rem;
       cursor: pointer;
@@ -120,13 +124,19 @@
       min-height: 1.2em;
     }
 
-    /* شاشة المشغل */
-    .player-screen {
-      display: none;
-      background: radial-gradient(circle at top, #05396b 0, #001632 50%, #000814 100%);
+    .hint {
+      font-size: 0.8rem;
+      color: var(--accent-dim);
+      text-align: center;
+      margin-top: 0.35rem;
     }
 
-    .player-container {
+    /* شاشة المشغّل */
+    .player-screen {
+      display: none;
+    }
+
+    .player-layout {
       display: flex;
       flex-wrap: wrap;
       gap: 2rem;
@@ -136,13 +146,14 @@
       width: 100%;
     }
 
+    /* صندوق مرحباً */
     .hello-box {
       padding: 2rem 2.5rem;
       border-radius: var(--radius-lg);
-      background: var(--card-bg);
-      backdrop-filter: blur(18px);
+      background: rgba(0, 0, 0, 0.45);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.55);
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(18px);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -167,87 +178,182 @@
       font-size: 3.8rem;
       font-weight: 800;
       letter-spacing: 0.35em;
-      text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+      text-shadow: 0 0 12px rgba(0, 0, 0, 0.8);
     }
 
-    .video-card {
+    /* كرت مشغّل الموسيقى */
+    .music-card {
       background: var(--card-bg);
-      border-radius: var(--radius-lg);
-      padding: 1.5rem 1.5rem 1.2rem;
-      max-width: 640px;
+      border-radius: 26px;
+      padding: 1.6rem 1.8rem 1.5rem;
       width: 100%;
-      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.55);
-      backdrop-filter: blur(18px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      max-width: 360px;
+      box-shadow: 0 26px 50px rgba(0, 0, 0, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.06);
       display: flex;
       flex-direction: column;
-      gap: 0.9rem;
+      gap: 1rem;
     }
 
-    .video-wrapper {
-      width: 100%;
-      border-radius: 14px;
-      overflow: hidden;
-      background: #000;
-      position: relative;
-    }
-
-    video {
-      width: 100%;
-      display: block;
-      background: #000;
-    }
-
-    .controls {
+    .music-top {
       display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
+      flex-direction: column;
+      gap: 1rem;
       align-items: center;
+    }
+
+    .cover-art {
+      width: 190px;
+      height: 190px;
+      border-radius: 24px;
+      background: var(--highlight);
+      box-shadow: 0 16px 35px rgba(0, 0, 0, 0.8);
+    }
+
+    .track-text {
+      text-align: center;
+    }
+
+    .track-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .track-subtitle {
+      font-size: 0.85rem;
+      color: var(--accent-dim);
+      margin-top: 0.3rem;
+    }
+
+    .progress-row {
+      margin-top: 0.6rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .progress-times {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: var(--accent-dim);
+    }
+
+    .progress-bar-wrapper {
+      background: var(--card-inner-bg);
+      padding: 0.55rem 0.75rem;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 4px;
+      border-radius: 999px;
+      background: #2a2b32;
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+      box-shadow: 0 0 0 6px rgba(255, 213, 74, 0.25);
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+    }
+
+    /* أزرار التحكم */
+    .controls-row {
+      margin-top: 0.8rem;
+      display: flex;
       justify-content: center;
-      margin-top: 0.4rem;
+      align-items: center;
+      gap: 0.7rem;
     }
 
     .btn {
       border: none;
-      border-radius: 999px;
-      padding: 0.6rem 1.3rem;
+      border-radius: var(--radius-sm);
+      padding: 0.55rem 0.9rem;
       background: var(--button-bg);
       color: var(--accent);
       cursor: pointer;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       display: inline-flex;
       align-items: center;
-      gap: 0.45rem;
-      backdrop-filter: blur(10px);
+      justify-content: center;
+      gap: 0.3rem;
       transition: background 0.12s ease, transform 0.12s ease,
         box-shadow 0.12s ease;
-      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.55);
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.7);
     }
 
-    .btn span {
-      font-size: 1.1rem;
+    .btn-main {
+      padding: 0.7rem 1.5rem;
+      background: linear-gradient(135deg, #ffffff, #ffd54a);
+      color: #111216;
+      font-weight: 700;
+      font-size: 1rem;
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.8);
     }
 
     .btn:hover {
       background: var(--button-hover-bg);
       transform: translateY(-1px);
-      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.85);
+    }
+
+    .btn-main:hover {
+      filter: brightness(1.03);
     }
 
     .btn:active {
       transform: translateY(1px) scale(0.98);
-      box-shadow: 0 7px 16px rgba(0, 0, 0, 0.55);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
     }
 
-    .btn-main {
-      font-weight: 600;
-      padding-inline: 1.5rem;
+    .btn-icon {
+      font-size: 1.15rem;
     }
 
-    .hint {
-      font-size: 0.8rem;
-      color: var(--accent-soft);
+    /* عبارة تحت المشغّل */
+    .caption {
+      margin-top: 1rem;
       text-align: center;
+      font-size: 0.9rem;
+      color: var(--accent-soft);
+      max-width: 360px;
+    }
+
+    .caption span {
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    /* إخفاء الفيديو الفعلي (نستخدمه فقط للصوت والتحكم) */
+    #video {
+      position: absolute;
+      width: 0;
+      height: 0;
+      opacity: 0;
+      pointer-events: none;
     }
 
     @media (max-width: 768px) {
@@ -256,13 +362,14 @@
       }
       .hello-box {
         order: -1;
-        padding: 1.5rem 1.7rem;
+        padding: 1.4rem 1.6rem;
+        margin-bottom: 0.5rem;
       }
       .hello-letters div {
         font-size: 3rem;
       }
-      .video-card {
-        padding: 1.2rem 1.2rem 1rem;
+      .music-card {
+        max-width: 100%;
       }
     }
   </style>
@@ -289,10 +396,11 @@
     </div>
   </div>
 
-  <!-- شاشة المشغل -->
+  <!-- شاشة المشغّل -->
   <div class="screen player-screen">
-    <div class="player-container">
+    <div class="player-layout">
 
+      <!-- صندوق مرحباً -->
       <div class="hello-box">
         <div class="hello-label">أهلاً بك</div>
         <div class="hello-letters">
@@ -304,42 +412,61 @@
         </div>
       </div>
 
-      <div class="video-card">
-        <div class="video-wrapper">
-          <!-- تأكد أن اسم الملف في نفس المجلد هو video.mp4 -->
-          <video
-            id="video"
-            src="video.mp4"
-            preload="metadata"
-            controls
-            playsinline
-            webkit-playsinline
-          ></video>
+      <!-- كرت مشغّل الموسيقى -->
+      <div>
+        <div class="music-card">
+          <div class="music-top">
+            <div class="cover-art"></div>
+
+            <div class="track-text">
+              <div class="track-title">SONG TITLE</div>
+              <div class="track-subtitle">اسم المقطع أو أي وصف تحب</div>
+            </div>
+          </div>
+
+          <div class="progress-row">
+            <div class="progress-times">
+              <span id="currentTime">0:00</span>
+              <span id="durationTime">0:00</span>
+            </div>
+            <div class="progress-bar-wrapper">
+              <input type="range" id="progress" value="0" min="0" step="1" />
+            </div>
+          </div>
+
+          <div class="controls-row">
+            <button id="back10" class="btn">
+              <span class="btn-icon">⏪</span>
+              <span>-10 ث</span>
+            </button>
+
+            <button id="playPause" class="btn btn-main">
+              <span class="btn-icon">▶️</span>
+            </button>
+
+            <button id="forward10" class="btn">
+              <span>+10 ث</span>
+              <span class="btn-icon">⏩</span>
+            </button>
+          </div>
         </div>
 
-        <div class="controls">
-          <button id="back10" class="btn">
-            <span>⏪</span>
-            <span>- 10 ثانية</span>
-          </button>
-
-          <button id="playPause" class="btn btn-main">
-            <span>▶️</span>
-            <span>تشغيل</span>
-          </button>
-
-          <button id="forward10" class="btn">
-            <span>+ 10 ثانية</span>
-            <span>⏩</span>
-          </button>
-        </div>
-
-        <div class="hint">
-          يمكنك استخدام أزرار الفيديو الأصلية أو الأزرار أسفل المقطع للتحكم.
-        </div>
+        <p class="caption">
+          <span>ملاحظة:</span> هنا تقدر تغيّر النص وتكتب أي عبارة خاصة فيك تحت
+          المشغّل.
+        </p>
       </div>
 
     </div>
+
+    <!-- الفيديو الحقيقي (مخفي) -->
+    <video
+      id="video"
+      src="video.mp4"
+      preload="metadata"
+      playsinline
+      webkit-playsinline
+    ></video>
   </div>
 
   <script>
@@ -377,14 +504,35 @@
     const playPauseBtn = document.getElementById("playPause");
     const back10Btn = document.getElementById("back10");
     const forward10Btn = document.getElementById("forward10");
+    const progress = document.getElementById("progress");
+    const currentTimeEl = document.getElementById("currentTime");
+    const durationTimeEl = document.getElementById("durationTime");
+
+    function formatTime(seconds) {
+      if (!seconds || isNaN(seconds)) return "0:00";
+      const m = Math.floor(seconds / 60);
+      const s = Math.floor(seconds % 60);
+      return m + ":" + (s < 10 ? "0" + s : s);
+    }
 
     function setPlayButtonState(isPlaying) {
-      if (isPlaying) {
-        playPauseBtn.innerHTML = "<span>⏸️</span><span>إيقاف</span>";
-      } else {
-        playPauseBtn.innerHTML = "<span>▶️</span><span>تشغيل</span>";
-      }
+      playPauseBtn.innerHTML = isPlaying
+        ? '<span class="btn-icon">⏸️</span>'
+        : '<span class="btn-icon">▶️</span>';
     }
+
+    video.addEventListener("loadedmetadata", () => {
+      const duration = video.duration || 0;
+      progress.max = Math.floor(duration);
+      durationTimeEl.textContent = formatTime(duration);
+      currentTimeEl.textContent = "0:00";
+    });
+
+    video.addEventListener("timeupdate", () => {
+      const ct = video.currentTime || 0;
+      progress.value = Math.floor(ct);
+      currentTimeEl.textContent = formatTime(ct);
+    });
 
     playPauseBtn.addEventListener("click", () => {
       if (video.paused) {
@@ -408,6 +556,14 @@
         const duration = isNaN(video.duration) ? Infinity : video.duration;
         const newTime = Math.min(duration, video.currentTime + 10);
         video.currentTime = newTime;
+      } catch (e) {
+        console.error(e);
+      }
+    });
+
+    progress.addEventListener("input", () => {
+      try {
+        video.currentTime = progress.value;
       } catch (e) {
         console.error(e);
       }
